@@ -2,7 +2,8 @@ export const config = {
     socket: {
         host_socket: 'http://localhost:8083',
         events: {
-            current_employes: "current-employes"
+            current_employes: "current-employes",
+            vote_employe: "vote_employe"
         }
 
     }

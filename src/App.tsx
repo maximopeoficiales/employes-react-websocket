@@ -32,12 +32,14 @@ function App() {
   }, [socket]);
 
   useEffect(() => {
-    socket.on(config.socket.events.current_employes, (data) => {
-      console.log(data);
-
-      setEmployes(data.employes as Employe[]);
+    socket.on(config.socket.events.current_employes, (data: Employe[]) => {
+      setEmployes(data);
     });
   }, [socket]);
+
+  const voteEmployeById = (id: string) => {
+    socket.emit(config.socket.events.vote_employe, id);
+  };
 
   return (
     <div className="App">
@@ -56,7 +58,7 @@ function App() {
 
         <div className="row">
           <div className=" col-md-8">
-            <EmployeList data={employes} />
+            <EmployeList data={employes} voteEmployeById={voteEmployeById} />
           </div>
           <div className=" col-md-4">
             <EmployeAdd />

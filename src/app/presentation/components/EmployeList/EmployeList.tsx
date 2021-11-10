@@ -1,8 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Employe } from "../../../domain/employe";
 
-const EmployeList = (props: { data: Employe[] }) => {
-  const { data } = props;
+interface MyProps {
+  data: Employe[];
+  voteEmployeById: (id: string) => void;
+}
+const EmployeList = (props: MyProps) => {
+  const { data, voteEmployeById } = props;
 
   const [employes, setEmployes] = useState<Employe[]>([]);
 
@@ -10,7 +14,6 @@ const EmployeList = (props: { data: Employe[] }) => {
     setEmployes(data);
   }, [data]);
 
-  
   const handlerChangeName = (
     event: ChangeEvent<HTMLInputElement>,
     id: string
@@ -31,11 +34,20 @@ const EmployeList = (props: { data: Employe[] }) => {
     // TODO: emit event to server
   };
 
+  const handlerClickVote = (id: string) => {
+    voteEmployeById(id);
+  };
+
   const createRows = () => {
     return employes.map((employe) => (
       <tr className="" key={employe.id}>
         <td>
-          <button className="btn btn-primary btn-sm">+1</button>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => handlerClickVote(employe.id)}
+          >
+            +1
+          </button>
         </td>
         <td>
           <input
