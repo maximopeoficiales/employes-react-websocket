@@ -1,11 +1,42 @@
 interface MyProps {}
-const defaultProps = {};
 const EmployeList = (props: MyProps) => {
-  props = { ...defaultProps, ...props };
-  const {} = props;
+  // const {} = props;
+  const createRows = () => {
+    return (
+      <tr className="">
+        <td>
+          <button className="btn btn-primary btn-sm">+1</button>
+        </td>
+        <td>
+          <input type="text" className="form-control form-control-sm" />
+        </td>
+        <td>
+          <h5>Programmer</h5>
+        </td>
+        <td>
+          <h3>15</h3>
+        </td>
+        <td>
+          <button className="btn btn-danger btn-sm">❌ Borrar</button>
+        </td>
+      </tr>
+    );
+  };
+
   return (
     <div data-testid="EmployeList" className="">
-      <h1>EmployeList component</h1>
+      <table className="table text-center">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Occupation</th>
+            <th>Votes</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>{createRows()}</tbody>
+      </table>
     </div>
   );
 };

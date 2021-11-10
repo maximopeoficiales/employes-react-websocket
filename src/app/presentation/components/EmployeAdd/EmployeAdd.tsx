@@ -28,8 +28,11 @@ const EmployeAdd = (props: MyProps) => {
               />
             </div>
 
-            <button type="submit" className="btn btn-success btn-lg btn-block w-100 my-2">
-              Add
+            <button
+              type="submit"
+              className="btn btn-success btn-lg btn-block w-100 my-2"
+            >
+              💾 Add
             </button>
           </form>
         </div>
