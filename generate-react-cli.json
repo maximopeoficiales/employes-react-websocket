@@ -8,7 +8,7 @@
       "customTemplates": {
         "component": "src/templates/component/TemplateName.tsx"
       },
-      "path": "src/components",
+      "path": "src/app/presentation/components",
       "withStyle": false,
       "withTest": false,
       "withStory": false,
@@ -18,7 +18,7 @@
       "customTemplates": {
         "component": "src/templates/component/TemplateName.tsx"
       },
-      "path": "src/components/ui",
+      "path": "src/app/presentation/components/ui",
       "withStyle": false,
       "withTest": false,
       "withStory": false,
@@ -28,7 +28,7 @@
       "customTemplates": {
         "component": "src/templates/component/TemplateName.tsx"
       },
-      "path": "src/screens/pages",
+      "path": "src/app/presentation/pages",
       "withStyle": false,
       "withTest": false,
       "withStory": false,
@@ -38,7 +38,7 @@
       "customTemplates": {
         "component": "src/templates/component/TemplateName.tsx"
       },
-      "path": "src/screens/auth",
+      "path": "src/app/presentation/components/ui",
       "withStyle": false,
       "withTest": false,
       "withStory": false,
