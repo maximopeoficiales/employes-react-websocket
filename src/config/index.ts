@@ -1,3 +1,9 @@
 export const config = {
-    host_socket: 'http://localhost:8083',
+    socket: {
+        host_socket: 'http://localhost:8083',
+        events: {
+            current_employes: "current-employes"
+        }
+
+    }
 }

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { Employe } from "./app/domain/employe";
 import EmployeAdd from "./app/presentation/components/EmployeAdd/EmployeAdd";
 import EmployeList from "./app/presentation/components/EmployeList/EmployeList";
 import { config } from "./config";
 
 const connectSocketServer = () => {
-  return io(config.host_socket, { transports: ["websocket"] });
+  return io(config.socket.host_socket, { transports: ["websocket"] });
 };
 function App() {
   const [socket, setSocket] = useState(connectSocketServer());
   const [online, setOnline] = useState(false);
+  const [employes, setEmployes] = useState<Employe[]>([]);
 
   useEffect(() => {
     setOnline(socket.connected);
@@ -29,6 +31,14 @@ function App() {
     });
   }, [socket]);
 
+  useEffect(() => {
+    socket.on(config.socket.events.current_employes, (data) => {
+      console.log(data);
+
+      setEmployes(data.employes as Employe[]);
+    });
+  }, [socket]);
+
   return (
     <div className="App">
       <div className="container">
@@ -45,10 +55,10 @@ function App() {
         <h1 className="my-4 text-center">Employes in Real Time</h1>
 
         <div className="row">
-          <div className="col-md-8">
-            <EmployeList />
+          <div className=" col-md-8">
+            <EmployeList data={employes} />
           </div>
-          <div className="col-md-4">
+          <div className=" col-md-4">
             <EmployeAdd />
           </div>
         </div>
