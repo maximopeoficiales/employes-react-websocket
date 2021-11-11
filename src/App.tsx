@@ -41,6 +41,12 @@ function App() {
     socket.emit(config.socket.events.vote_employe, id);
   };
 
+  const deleteEmployeById = (id: string) => {
+    socket.emit(config.socket.events.delete_employe, id);
+  };
+  const updateEmployeById = (id: string, name: string) => {
+    socket.emit(config.socket.events.update_name_employe, { id, name });
+  };
   return (
     <div className="App">
       <div className="container">
@@ -58,7 +64,12 @@ function App() {
 
         <div className="row">
           <div className=" col-md-8">
-            <EmployeList data={employes} voteEmployeById={voteEmployeById} />
+            <EmployeList
+              data={employes}
+              voteEmployeById={voteEmployeById}
+              deleteEmployeById={deleteEmployeById}
+              updateEmployeById={updateEmployeById}
+            />
           </div>
           <div className=" col-md-4">
             <EmployeAdd />

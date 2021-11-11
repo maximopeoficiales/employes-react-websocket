@@ -4,9 +4,11 @@ import { Employe } from "../../../domain/employe";
 interface MyProps {
   data: Employe[];
   voteEmployeById: (id: string) => void;
+  deleteEmployeById: (id: string) => void;
+  updateEmployeById: (id: string, name: string) => void;
 }
 const EmployeList = (props: MyProps) => {
-  const { data, voteEmployeById } = props;
+  const { data, voteEmployeById, deleteEmployeById, updateEmployeById } = props;
 
   const [employes, setEmployes] = useState<Employe[]>([]);
 
@@ -30,12 +32,19 @@ const EmployeList = (props: MyProps) => {
   };
 
   const onLostChange = (id: string, name: string) => {
-    console.log(id, name);
+    updateEmployeById(id, name);
+    // console.log(id, name);
     // TODO: emit event to server
   };
 
   const handlerClickVote = (id: string) => {
     voteEmployeById(id);
+  };
+
+  const handlerDeleteEmploye = (id: string) => {
+    console.log(id);
+
+    deleteEmployeById(id);
   };
 
   const createRows = () => {
@@ -65,7 +74,12 @@ const EmployeList = (props: MyProps) => {
           <h3>{employe.votes}</h3>
         </td>
         <td>
-          <button className="btn btn-danger btn-sm">❌ Borrar</button>
+          <button
+            onClick={() => handlerDeleteEmploye(employe.id)}
+            className="btn btn-danger btn-sm"
+          >
+            ❌ Borrar
+          </button>
         </td>
       </tr>
     ));
