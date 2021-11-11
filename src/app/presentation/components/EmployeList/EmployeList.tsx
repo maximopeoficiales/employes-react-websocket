@@ -1,20 +1,18 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { config } from "../../../../config";
 import { Employe } from "../../../domain/employe";
+import { SocketContext } from "../../context/SocketContext";
 
-interface MyProps {
-  data: Employe[];
-  voteEmployeById: (id: string) => void;
-  deleteEmployeById: (id: string) => void;
-  updateEmployeById: (id: string, name: string) => void;
-}
+interface MyProps {}
 const EmployeList = (props: MyProps) => {
-  const { data, voteEmployeById, deleteEmployeById, updateEmployeById } = props;
-
+  const { socket } = useContext(SocketContext);
   const [employes, setEmployes] = useState<Employe[]>([]);
 
   useEffect(() => {
-    setEmployes(data);
-  }, [data]);
+    socket?.on(config.socket.events.current_employes, (data: Employe[]) => {
+      setEmployes(data);
+    });
+  }, [socket]);
 
   const handlerChangeName = (
     event: ChangeEvent<HTMLInputElement>,
@@ -31,20 +29,16 @@ const EmployeList = (props: MyProps) => {
     );
   };
 
-  const onLostChange = (id: string, name: string) => {
-    updateEmployeById(id, name);
-    // console.log(id, name);
-    // TODO: emit event to server
+  const onLostChangeUpdateName = (id: string, name: string) => {
+    socket?.emit(config.socket.events.update_name_employe, { id, name });
   };
 
   const handlerClickVote = (id: string) => {
-    voteEmployeById(id);
+    socket?.emit(config.socket.events.vote_employe, id);
   };
 
   const handlerDeleteEmploye = (id: string) => {
-    console.log(id);
-
-    deleteEmployeById(id);
+    socket?.emit(config.socket.events.delete_employe, id);
   };
 
   const createRows = () => {
@@ -64,7 +58,7 @@ const EmployeList = (props: MyProps) => {
             className="form-control form-control-sm"
             value={employe.name}
             onChange={(event) => handlerChangeName(event, employe.id)}
-            onBlur={() => onLostChange(employe.id, employe.name)}
+            onBlur={() => onLostChangeUpdateName(employe.id, employe.name)}
           />
         </td>
         <td>
@@ -87,18 +81,20 @@ const EmployeList = (props: MyProps) => {
 
   return (
     <div data-testid="EmployeList" className="">
-      <table className="table text-center">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Occupation</th>
-            <th>Votes</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{createRows()}</tbody>
-      </table>
+      {employes.length > 0 && (
+        <table className="table text-center">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Occupation</th>
+              <th>Votes</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{createRows()}</tbody>
+        </table>
+      )}
     </div>
   );
 };

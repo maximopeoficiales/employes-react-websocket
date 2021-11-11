@@ -1,15 +1,16 @@
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
+import { config } from "../../../../config";
+import { SocketContext } from "../../context/SocketContext";
 import { useForm } from "../../hooks/useForm";
 
 interface FormEmploye {
   name: string;
   occupation: string;
 }
-interface MyProps {
-  addEmploye: (name: string, occupation: string) => void;
-}
+interface MyProps {}
 const EmployeAdd = (props: MyProps) => {
-  const { addEmploye } = props;
+  const { socket } = useContext(SocketContext);
+
   const { formValues, handlerChange, resetForm } = useForm<FormEmploye>({
     name: "",
     occupation: " ",
@@ -18,9 +19,13 @@ const EmployeAdd = (props: MyProps) => {
 
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addEmploye(name, occupation);
-    resetForm();
+    if (name !== "" && occupation !== "") {
+      socket?.emit(config.socket.events.add_employe, { name, occupation });
+
+      resetForm();
+    }
   };
+  
   return (
     <>
       <div className="card">
