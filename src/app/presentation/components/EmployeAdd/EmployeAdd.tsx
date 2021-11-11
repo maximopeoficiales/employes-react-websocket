@@ -1,18 +1,40 @@
-interface MyProps {}
+import { FormEvent } from "react";
+import { useForm } from "../../hooks/useForm";
+
+interface FormEmploye {
+  name: string;
+  occupation: string;
+}
+interface MyProps {
+  addEmploye: (name: string, occupation: string) => void;
+}
 const EmployeAdd = (props: MyProps) => {
-  // const {} = props;
+  const { addEmploye } = props;
+  const { formValues, handlerChange, resetForm } = useForm<FormEmploye>({
+    name: "",
+    occupation: " ",
+  });
+  const { name, occupation } = formValues;
+
+  const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    addEmploye(name, occupation);
+    resetForm();
+  };
   return (
     <>
       <div className="card">
         <div className="card-body">
           <h4 className="card-title my-2 text-center">Add Employee</h4>
-          <form>
+          <form onSubmit={handlerSubmit}>
             <div className="form-group my-1">
-              <label htmlFor="nametext">Name:</label>
+              <label htmlFor="name">Name:</label>
               <input
+                onChange={handlerChange}
+                value={name}
                 type="text"
                 className="form-control"
-                name="nametext"
+                name="name"
                 aria-describedby="helpId"
                 placeholder="Insert Name:"
               />
@@ -20,6 +42,8 @@ const EmployeAdd = (props: MyProps) => {
             <div className="form-group my-1">
               <label htmlFor="occupation">Occupation:</label>
               <input
+                onChange={handlerChange}
+                value={occupation}
                 type="text"
                 className="form-control"
                 name="occupation"

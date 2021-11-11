@@ -47,6 +47,10 @@ function App() {
   const updateEmployeById = (id: string, name: string) => {
     socket.emit(config.socket.events.update_name_employe, { id, name });
   };
+
+  const addEmploye = (name: string, occupation: string) => {
+    socket.emit(config.socket.events.add_employe, { name, occupation });
+  };
   return (
     <div className="App">
       <div className="container">
@@ -72,7 +76,7 @@ function App() {
             />
           </div>
           <div className=" col-md-4">
-            <EmployeAdd />
+            <EmployeAdd addEmploye={addEmploye}/>
           </div>
         </div>
       </div>
