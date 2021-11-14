@@ -9,11 +9,9 @@ export const useSocket = (serverPatch: string) => {
     useEffect(() => {
         socket.on("connect", () => {
             console.log("ConeCTADO",socket.id);
-
             setOnline(true);
         });
 
-        // return socket.disconnect();
     }, [socket]);
 
     useEffect(() => {
