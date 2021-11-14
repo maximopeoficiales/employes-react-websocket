@@ -8,7 +8,7 @@ export const useSocket = (serverPatch: string) => {
 
     useEffect(() => {
         socket.on("connect", () => {
-            console.log("ConeCTADO",socket.id);
+            console.log("Conectado",socket.id);
             setOnline(true);
         });
 
